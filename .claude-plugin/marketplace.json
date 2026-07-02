@@ -1,0 +1,16 @@
+{
+  "name": "yinc",
+  "description": "Shared Claude Code skills for Yinc.",
+  "owner": {
+    "name": "Yinc",
+    "url": "https://github.com/yinc-studio"
+  },
+  "plugins": [
+    {
+      "name": "yinc-skills",
+      "source": "./",
+      "description": "Shared Claude Code skills for Yinc. Currently ships yinc-orchestrate, a multi-agent routing skill.",
+      "version": "0.1.0"
+    }
+  ]
+}

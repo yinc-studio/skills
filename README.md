@@ -1,33 +1,58 @@
-# Skills
+# Yinc Skills
 
-Shared [Claude Code](https://claude.com/claude-code) skills for Yinc.
+Shared [Claude Code](https://claude.com/claude-code) skills for Yinc, packaged as a plugin marketplace.
 
-A *skill* is a self-contained instruction set (a `SKILL.md` file, plus any supporting files) that Claude loads on demand. This repo is where we collect skills worth sharing across projects and people.
+A *skill* is a self-contained instruction set (a `SKILL.md` file, plus any supporting files) that Claude loads on demand. This repo is both a **marketplace** (`yinc`) and the **plugin** it hosts (`yinc-skills`), which bundles every skill below.
+
+## Install
+
+From a terminal:
+
+```sh
+claude plugin marketplace add yinc-studio/skills
+claude plugin install yinc-skills@yinc
+```
+
+Or, inside Claude Code, run the equivalent slash commands:
+
+```
+/plugin marketplace add yinc-studio/skills
+/plugin install yinc-skills@yinc
+```
+
+Once installed, skills are namespaced under the plugin and invoked as `/yinc-skills:<skill-name>` (e.g. `/yinc-skills:yinc-orchestrate`).
 
 ## Skills
 
-| Skill | Description |
-|-------|-------------|
-| [`orchestrate`](orchestrate/) | Coordinate a task by routing each unit of work to a subagent backed by the right model, then integrating the results. Invoke with `/orchestrate`. |
+| Skill | Invoke | Description |
+|-------|--------|-------------|
+| [`yinc-orchestrate`](skills/yinc-orchestrate/) | `/yinc-skills:yinc-orchestrate` | Act as orchestrator for the session: route each unit of work to a subagent on the best-fit model, then integrate the results. |
 
-## Installing a skill
+## Updating
 
-Each skill lives in its own directory at the repo root. To use one, copy its directory into your Claude Code skills folder:
+Bump the `version` in [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) and the matching entry in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) when you change a skill, so installed users receive the update. Users refresh with:
 
 ```sh
-# User-level (available in every session)
-cp -R orchestrate ~/.claude/skills/
-
-# or project-level (available only in that project)
-cp -R orchestrate /path/to/project/.claude/skills/
+claude plugin marketplace update yinc
 ```
-
-Claude discovers the skill on the next session and exposes it as `/<skill-name>`.
 
 ## Adding a skill
 
-1. Create a directory named after the skill.
-2. Add a `SKILL.md` with YAML frontmatter (`name`, `description`) followed by the instructions.
-3. Add a row to the table above.
+1. Create `skills/<skill-name>/SKILL.md` with YAML frontmatter (`name`, `description`) followed by the instructions.
+2. Add a row to the table above.
+3. Bump the plugin version (see [Updating](#updating)).
 
-See Anthropic's [skill-creator](https://docs.claude.com/en/docs/claude-code/skills) for authoring guidance.
+## Repo layout
+
+```
+.
+├── .claude-plugin/
+│   ├── marketplace.json   # marketplace manifest (name: yinc)
+│   └── plugin.json        # plugin manifest (name: yinc-skills)
+├── skills/
+│   └── yinc-orchestrate/
+│       └── SKILL.md
+└── README.md
+```
+
+See Anthropic's [plugin marketplace docs](https://code.claude.com/docs/en/plugin-marketplaces) for the full schema.
